@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="col-md-12">
+	<table class="table table-hover">
+		<tr>
+			<th>标题</th>
+			<th>内容</th>		
+		</tr>
+		<tr>
+			<td>{{ article.title }}<br>{{ article.author.username }}</td>
+			<td>创建时间:{{ article.create_timestamp }}<br><br>{{ article.content }}</td>
+		</tr>
+		{% for comment in comments %}
+         <tr>
+             <td>{{ article.title }}<br>作者: {{ comment.owner.username }}</td>
+             <td>
+                 <p>更新于: {{ comment.last_update_timestamp|date:"Y-m-d P" }}</p>
+                 <br/>
+                 <p>{{ comment.content|linebreaks }}</p>
+             </td>
+         </tr>
+       {% endfor %}
+	</table>
+	 {% include "component/paginator.html" with param_name="comment_no" %}
+		{% if user.is_authenticated %}
+		  <div class="form-group">
+		      <lable for="exampleInputName1">评论内容</lable>
+		      <br/>
+		      <textarea rows=5 id="id_comment_content" name="comment_content" class="form-control"></textarea>
+		  </div>
+		  <button type="submit" id="id_comment_btn" class="btn btn-primary">发表评论</button>
+		{% endif %}
+		<script text="text/javascript">
+			  $(document).ready(function(){
+			      $("#id_comment_btn").click(function(){
+			          var article_id = {{ article.id }};
+			          var to_comment_id = 0;
+			          var content = $("#id_comment_content").val();
+			          var page_nums = {{ paginations.page_nums }};
+			          var param = {"article_id": article_id, "to_comment_id": to_comment_id, "content": content};
+			          $.post("{% url 'comment_create' %}", param, function(){
+			              $("#id_comment_content").val("");
+			              window.location.href = "{% url 'article_display' article.id %}?comment_no=" + (page_nums + 1)
+			          });
+			      });
+			  });
+	 </script>
+</div>
+{% endblock%}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block contents %}
+{{ profile.avatar }}
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			{% for block in blocks %}
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<div class="panel-title">
+								<a href="{% url 'article_list' block.id %}">{{ block.name }}</a>
+								<span class="pull-right">管理员:{{ block.manager.username }}</span>				
+							</div>	
+						</div>	
+						<div class="panel-body">
+							{{ block.desc }}	
+						</div>
+					</div>
+			{% endfor %}
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-info">
+			  <div class="panel-heading">账号</div>
+				  <div class="panel-body">
+				    {% if user.is_authenticated %}
+			    		  {% if profile.avatar %}
+							    <a href="{% url 'usercenter_upload_avatar' %}" class="pull-right"><img src="{{ profile.avatar }}"/></a>
+							    <br />
+							    <br />
+							{% else %}
+							    <a href="{% url 'usercenter_upload_avatar' %}" class="btn btn-primary pull-right">上传头像</a>
+							    <br />
+							    <br />
+							{% endif %}
+				    		{{ user.username }}
+				    		{% if msg_cnt %}
+				    		<a href="{% url 'message_list' %}" ><span class="badge">{{ msg_cnt }}</span></a>
+				    		{% endif %}已登录。
+				    		<span><a href="{% url 'usercenter_logout' %}">登出</a></span>&nbsp;&nbsp;
+				    		<span><a href="{% url 'password_change' %}">修改密码</a></span>
+				    {% else %}
+				    		<center>
+				    		<a href="{% url 'usercenter_login' %}">账号登录</a> &nbsp;&nbsp;
+				    		<span><a href="{% url 'usercenter_register' %}">账号注册</a></span>&nbsp;&nbsp;
+				    		<span><a href="{% url 'password_reset' %}">重置密码</a></span>
+				    		</center>
+				    {% endif %}
+				  </div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

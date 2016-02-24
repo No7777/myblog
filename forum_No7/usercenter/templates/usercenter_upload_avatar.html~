@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        &nbsp;
+    </div>
+    <div class="col-md-6">
+        {% if user.is_authenticated %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <b>{% if profile.avatar %} 更改头像 {% else %} 创建头像 {% endif %}</b>
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="input-group">
+                    
+                        <span><h4>上传文件</h4></span>
+                  
+                    
+                    		<center><input id="avatar_id" name="avatar" type="file" /></center>
+                   
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <input id="avatar_btn" type="submit" class="btn btn-primary" value="上传"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+        &nbsp;
+    </div>
+</div>
+{% endblock %}

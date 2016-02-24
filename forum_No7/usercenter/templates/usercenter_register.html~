@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+				{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+						{% endfor %}
+				{% endif %}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h5>创建账户</h5>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form method="POST" action="">{% csrf_token %}
+					  <div class="form-group">
+					    <div class="input-group">
+					      <div class="input-group-addon">用户名</div>
+					      <input type="text" class="form-control" id="username_id" maxlength="255" name="username">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="input-group">
+					      <div class="input-group-addon">邮箱</div>
+					      <input type="text" class="form-control" id="email_id" maxlength="255" name="email">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="input-group">
+					      <div class="input-group-addon">密码</div>
+					      <input type="password" class="form-control" id="pwd_id" name="password">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="input-group">
+					      <div class="input-group-addon">确认密码</div>
+					      <input type="password" class="form-control" id="confirmpwd_id" name="confirmed_pwd">
+					    </div>
+					  </div>
+					  <div class="input-group">
+					    <button type="submit" class="btn btn-primary">注册</button>
+					  </div>
+				</form>	
+			</div>
+				<div class="panel-footer">
+					<a href="{% url 'usercenter_login' %}" >已有用户？</a>
+				</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}
